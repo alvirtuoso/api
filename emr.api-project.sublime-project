@@ -1,0 +1,27 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		},
+		{
+			"path": "/Applications/MAMP/htdocs/angularcrud"
+		},
+		{
+			"path": "/Applications/MAMP/htdocs/openemr/interface/main/finder"
+		},
+		{
+			"path": "/Applications/MAMP/htdocs/searchboxAjax"
+		},
+		{
+			"path": "/Applications/MAMP/htdocs/openemr/searchbox"
+		}
+	],
+	"settings":
+	{
+		"xdebug":
+		{
+			"url": "http://localhost:8888/openemr/api"
+		}
+	}
+}
