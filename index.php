@@ -33,7 +33,7 @@ $app->get('/patients', 'getPatients');
  $app->get('/patients/search/:query', 'findByName');
  $app->post('/patients', 'addPatient');
 $app->put('/patients/:id', 'updatePatient');
-// $app->delete('/patients/:id', 'deletePatient');
+ $app->delete('/patients/:id', 'deletePatient');
 
 $app->run();
 
@@ -56,9 +56,6 @@ function getPatients()
 
 function getPatientById($id)
 { 
-  // echo "{:id}";
-  //if(!IsNullOrEmptyString($id)){
-
       $sql = "SELECT * FROM patient_data WHERE id = :id";
     try {
       $db = getDB();
@@ -72,7 +69,7 @@ function getPatientById($id)
     } catch (PDOException $e) {
       echo '{"error":{"text":'. $e->getMessage() .'}}'; 
     }
-  //}
+  
 
 }
 
@@ -100,30 +97,7 @@ function addPatient()//$fname, $lname, $dob, $sex)
      $request = \Slim\Slim::getInstance()->request();
      $patient = json_decode($request->getBody());
      var_dump($patients);
-    // $sql = "INSERT INTO patient_data (fname, lname, DOB, sex) VALUES (:fname, :lname, :dob, :sex)";
-    // try {
-    //     $db = getConnection();
-    //     $stmt = $db->prepare($sql);
-    //     $stmt->bindParam("name", $patient->name);
-    //     $stmt->bindParam("grapes", $patient->grapes);
-    //     $stmt->bindParam("country", $patient->country);
-    //     $stmt->bindParam("region", $patient->region);
-    //     $stmt->bindParam("year", $patient->year);
-    //     $stmt->bindParam("description", $patient->description);
-    //     $stmt->execute();
-    //     $patient->id = $db->lastInsertId();
-    //     $db = null;
-    //     echo json_encode($patient);
-    // } catch(PDOException $e) {
-    //     echo '{"error":{"text":'. $e->getMessage() .'}}';
-    // }
-}
-
-function updateWine($id) {
-    $request = \Slim\Slim::getInstance()->request();
-    $body = $request->getBody();
-    $patient = json_decode($body);
-    $sql = "UPDATE wine SET name=:name, grapes=:grapes, country=:country, region=:region, year=:year, description=:description WHERE id=:id";
+    $sql = "INSERT INTO patient_data (fname, lname, DOB, sex) VALUES (:fname, :lname, :dob, :sex)";
     try {
         $db = getConnection();
         $stmt = $db->prepare($sql);
@@ -133,6 +107,27 @@ function updateWine($id) {
         $stmt->bindParam("region", $patient->region);
         $stmt->bindParam("year", $patient->year);
         $stmt->bindParam("description", $patient->description);
+        $stmt->execute();
+        $patient->id = $db->lastInsertId();
+        $db = null;
+        echo json_encode($patient);
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
+
+function updatePatient($id) {
+    $request = \Slim\Slim::getInstance()->request();
+    $body = $request->getBody();
+    $patient = json_decode($body);
+    $sql = "UPDATE patient_data SET fname=:fname, lname=:lname, DOB=:dob, sex=:sex WHERE id=:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("fname", $patient->fname);
+        $stmt->bindParam("lname", $patient->lname);
+        $stmt->bindParam("DOB", $patient->dob);
+        $stmt->bindParam("sex", $patient->sex);
         $stmt->bindParam("id", $id);
         $stmt->execute();
         $db = null;
@@ -142,5 +137,17 @@ function updateWine($id) {
     }
 }
 
+function deletePatient($id) {
+    $sql = "DELETE FROM patient_data WHERE id=:id";
+    try {
+        $db = getConnection();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam("id", $id);
+        $stmt->execute();
+        $db = null;
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+}
 
 ?>
