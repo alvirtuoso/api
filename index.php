@@ -93,27 +93,28 @@ function findByName($query)
 
 function addPatient()//$fname, $lname, $dob, $sex) 
 {
-  echo "hello";
+  //curl -i -X POST -H 'Content-Type: application/json' -d '{"fname": "New Wine", "lname": "Mooree"}' http://localhost:8888/openemr/api/patients
+   //echo "hereeee";
+
+   //echo $dob;
      $request = \Slim\Slim::getInstance()->request();
      $patient = json_decode($request->getBody());
      var_dump($patients);
-    $sql = "INSERT INTO patient_data (fname, lname, DOB, sex) VALUES (:fname, :lname, :dob, :sex)";
-    try {
-        $db = getConnection();
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam("name", $patient->name);
-        $stmt->bindParam("grapes", $patient->grapes);
-        $stmt->bindParam("country", $patient->country);
-        $stmt->bindParam("region", $patient->region);
-        $stmt->bindParam("year", $patient->year);
-        $stmt->bindParam("description", $patient->description);
-        $stmt->execute();
-        $patient->id = $db->lastInsertId();
-        $db = null;
-        echo json_encode($patient);
-    } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
+    // $sql = "INSERT INTO patient_data (fname, lname, DOB, sex) VALUES (:fname, :lname, :dob, :sex)";
+    // try {
+    //     $db = getConnection();
+    //     $stmt = $db->prepare($sql);
+    //     $stmt->bindParam("fname", $patient->fname);
+    //     $stmt->bindParam("lname", $patient->lname);
+    //     $stmt->bindParam("DOB", $patient->dob);
+    //     $stmt->bindParam("sex", $patient->sex);
+    //     $stmt->execute();
+    //     $patient->id = $db->lastInsertId();
+    //     $db = null;
+    //     echo json_encode($patient);
+    // } catch(PDOException $e) {
+    //     echo '{"error":{"text":'. $e->getMessage() .'}}';
+    // }
 }
 
 function updatePatient($id) {
@@ -138,6 +139,7 @@ function updatePatient($id) {
 }
 
 function deletePatient($id) {
+  //curl -i -X DELETE http://localhost:8888/openemr/api/patients/2
     $sql = "DELETE FROM patient_data WHERE id=:id";
     try {
         $db = getConnection();

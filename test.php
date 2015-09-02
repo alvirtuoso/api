@@ -5,7 +5,7 @@ require 'db.php';
 
 //var $s = getDB();
 
-//var_dump($s);
+// var_dump($s)
 
 require 'lib/autoload.php';
 // $app =  new \Slim\Slim();
